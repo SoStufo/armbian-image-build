@@ -1,0 +1,556 @@
+name: "Build armbian"
+
+on:
+  workflow_dispatch:
+    inputs:
+      armbian_board:
+        description: 'Board target'
+        required: true
+        type: choice
+        options:
+          - aml-a311d-cc
+          - aml-c400-plus
+          - aml-s805-mxq
+          - aml-s905d3-cc
+          - aml-s9xx-box
+          - aml-t95z-plus
+          - armsom-aim7-io
+          - armsom-cm5-io
+          - armsom-cm5-rpi-cm4-io
+          - armsom-sige1
+          - armsom-sige3
+          - armsom-sige5
+          - armsom-sige7
+          - armsom-w3
+          - avaota-a1
+          - ayn-odin2
+          - bananapi
+          - bananapicm4io
+          - bananapif3
+          - bananapim1plus
+          - bananapim2
+          - bananapim2plus
+          - bananapim2pro
+          - bananapim2s
+          - bananapim2ultra
+          - bananapim2zero
+          - bananapim3
+          - bananapim4berry
+          - bananapim4zero
+          - bananapim5
+          - bananapim64
+          - bananapim7
+          - bananapipro
+          - bananapir2
+          - bananapir2pro
+          - beaglebone-ai64
+          - beagleplay
+          - beaglev
+          - beelinkx2
+          - bigtreetech-cb1
+          - bigtreetech-cb2
+          - cherryba-m1
+          - clearfogbase
+          - clearfogpro
+          - clockworkpi-a06
+          - cm3588-nas
+          - coolpi-cm5
+          - coolpi-genbook
+          - core3566
+          - cubieboard
+          - cubieboard2
+          - cubieboard4
+          - cubietruck
+          - cubietruckplus
+          - cubox-i
+          - cyber-aib-rk3588
+          - dshanpi-r1
+          - espressobin
+          - fe-som-rk3399
+          - fine3399
+          - firefly-itx-3588j
+          - firefly-rk3399
+          - fxblox-rk1
+          - gateway-gz80x
+          - h96-tvbox-3566
+          - helios4
+          - helios64
+          - hikey960
+          - hinlink-h28k
+          - hinlink-h66k
+          - hinlink-h68k
+          - hinlink-h88k
+          - hinlink-hnas
+          - hinlink-ht2
+          - imx7sabre
+          - indiedroid-nova
+          - inovato-quadra
+          - jethubj100
+          - jethubj200
+          - jethubj80
+          - jetson-nano
+          - jp-tvbox-3566
+          - khadas-edge
+          - khadas-edge2
+          - khadas-vim1
+          - khadas-vim1s
+          - khadas-vim2
+          - khadas-vim3
+          - khadas-vim3l
+          - khadas-vim4
+          - lafrite
+          - lamobo-r1
+          - lckfb-taishanpi
+          - leez-p710
+          - lepotato
+          - licheepi-4a
+          - lime-a10
+          - lime-a33
+          - lime-a64
+          - lime
+          - lime2
+          - longanpi-3h
+          - longanpi-4b
+          - lubancat2
+          - luckfox-core3566
+          - macchiatobin-doubleshot
+          - mangopi-m28k
+          - mangopi-mq
+          - mba8mpxl-ras314
+          - mba8mpxl
+          - mekotronics-r58-minipc
+          - mekotronics-r58x-4g
+          - mekotronics-r58x-pro
+          - mekotronics-r58x
+          - melea1000
+          - microzed
+          - miqi
+          - mixtile-blade3
+          - mixtile-edge2
+          - mk808c
+          - mksklipad50
+          - mkspi
+          - nanopct4
+          - nanopct6-lts
+          - nanopct6
+          - nanopi-m6
+          - nanopi-r1
+          - nanopi-r1s-h5
+          - nanopi-r2c
+          - nanopi-r2s
+          - nanopi-r3s
+          - nanopi-r4s
+          - nanopi-r4se
+          - nanopi-r5c
+          - nanopi-r5s
+          - nanopi-r6c
+          - nanopi-r6s
+          - nanopia64
+          - nanopiair
+          - nanopiduo
+          - nanopiduo2
+          - nanopik1plus
+          - nanopik2-s905
+          - nanopim1
+          - nanopim1plus
+          - nanopim1plus2
+          - nanopim4
+          - nanopim4v2
+          - nanopineo
+          - nanopineo2
+          - nanopineo2black
+          - nanopineo3
+          - nanopineo4
+          - nanopineocore2
+          - nanopineoplus2
+          - nezha
+          - odroidc1
+          - odroidc2
+          - odroidc4
+          - odroidhc4
+          - odroidm1
+          - odroidm2
+          - odroidn2
+          - odroidn2l
+          - odroidxu4
+          - olimex-a20-olinuxino-micro
+          - olimex-som-a20
+          - olimex-som204-a20
+          - olimex-teres-a64
+          - olinux-som-a13
+          - onecloud
+          - oneplus-kebab
+          - orangepi-r1
+          - orangepi-r1plus-lts
+          - orangepi-r1plus
+          - orangepi-rk3399
+          - orangepi
+          - orangepi2
+          - orangepi3-lts
+          - orangepi3
+          - orangepi3b
+          - orangepi4-lts
+          - orangepi4
+          - orangepi5-max
+          - orangepi5-plus
+          - orangepi5-ultra
+          - orangepi5
+          - orangepi5pro
+          - orangepilite
+          - orangepilite2
+          - orangepimini
+          - orangepione
+          - orangepioneplus
+          - orangepipc
+          - orangepipc2
+          - orangepipcplus
+          - orangepiplus
+          - orangepiplus2e
+          - orangepiprime
+          - orangepiwin
+          - orangepizero
+          - orangepizero2
+          - orangepizero2w
+          - orangepizero3
+          - orangepizeroplus
+          - orangepizeroplus2-h3
+          - orangepizeroplus2-h5
+          - panther-x2
+          - pcduino2
+          - pcduino3
+          - pcduino3nano
+          - phytiumpi
+          - pine64
+          - pine64so
+          - pinebook-a64
+          - pinebook-pro
+          - pinecube
+          - pineh64-b
+          - pineh64
+          - pocketbeagle2
+          - pocketchip-sd
+          - qemu-uboot-arm64
+          - qemu-uboot-x86
+          - qemu-uefi-x86
+          - quartz64a
+          - quartz64b
+          - radxa-cubie-a5e
+          - radxa-e20c
+          - radxa-e25
+          - radxa-e52c
+          - radxa-zero
+          - radxa-zero2
+          - radxa-zero3
+          - recore
+          - renegade
+          - retro-lite-cm5
+          - retroidpocket-rp5
+          - retroidpocket-rpmini
+          - rk322x-box
+          - rk3318-box
+          - rk3328-heltec
+          - roc-rk3399-pc
+          - rock-2a
+          - rock-2f
+          - rock-3a
+          - rock-3c
+          - rock-4se
+          - rock-5-cm-rpi-cm4-io
+          - rock-5-cmio
+          - rock-5-itx
+          - rock-5a
+          - rock-5b-plus
+          - rock-5b
+          - rock-5c
+          - rock-5t
+          - rock-s0
+          - rock64
+          - rockpi-4a
+          - rockpi-4b
+          - rockpi-4bplus
+          - rockpi-4c
+          - rockpi-4cplus
+          - rockpi-e
+          - rockpi-n10
+          - rockpi-s
+          - rockpro64
+          - rpi4b
+          - sakurapi-rk3308b
+          - sk-am62b
+          - sk-am64b
+          - sk-am68
+          - sk-am69
+          - sk-tda4vm
+          - star64
+          - station-m1
+          - station-m2
+          - station-m3
+          - station-p1
+          - station-p2
+          - sunvell-r69
+          - sweet-potato
+          - tanix-tx6
+          - thinkpad-x13s
+          - tinker-edge-r
+          - tinkerboard-2
+          - tinkerboard
+          - tritium-h3
+          - tritium-h5
+          - turing-rk1
+          - udoo
+          - uefi-arm64
+          - uefi-riscv64
+          - uefi-x86
+          - unleashed
+          - unmatched
+          - virtual-qemu
+          - visionfive
+          - visionfive2
+          - wdk2023
+          - wsl2-arm64
+          - wsl2-x86
+          - x96-mate
+          - x96q
+          - xiaobao-nas
+          - xiaomi-elish
+          - xt-q8l-v10
+          - youyeetoo-r1-v3
+          - yy3568
+          - z28pro
+          - zeropi
+      armbian_revision:
+        description: 'Armbian revision (last stable or last nightly)'
+        required: false
+        default: 'stable'
+        type: choice
+        options:
+          - stable
+          - nightly
+      armbian_release:
+        description: 'Select OS Release'
+        required: false
+        default: 'bookworm'
+        type: choice
+        options:
+          - sid
+          - trixie
+          - bookworm
+          - noble
+          - jammy
+      armbian_kernel_branch:
+        description: 'Kernel branch'
+        required: false
+        default: 'current'
+        type: choice
+        options:
+          - legacy
+          - vendor
+          - current
+          - edge
+      armbian_ui:
+        description: 'Armbian user interface'
+        required: false
+        default: 'server'
+        type: choice
+        options:
+          - minimal
+          - server
+          - desktop
+      armbian_desktop_enviroment:
+        description: 'Desktop Enviroment'
+        required: false
+        default: 'xfce'
+        type: choice
+        options:
+          - xfce
+          - gnome
+          - cinnamon
+          - i3-wm
+          - kde-plasma
+          - kde-neon
+          - mate
+          - budgie
+          - xmonad
+      armbian_rootfs_type:
+        description: 'Root filesystem type'
+        required: false
+        default: 'ext4'
+        type: choice
+        options:
+          - ext4
+          - btrfs
+          - nilfs2
+          - xfs
+          - nfs
+      armbian_btrfs_compression:
+        description: 'Btrfs filesystem compression'
+        required: false
+        default: 'zlib'
+        type: choice
+        options:
+          - lzo
+          - none
+          - zlib
+          - zstd
+      armbian_cryptroot_enable:
+        description: 'Encrypt root with LUKS'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - false
+          - true
+      armbian_cryptroot_ssh_unlock:
+        description: 'Enable root ssh unlock'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - true
+          - false
+
+env:
+  TZ: America/New_York
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+
+    steps:
+      - name: "Checkout Armbian build framework"
+        uses: actions/checkout@v4
+        with:
+          repository: armbian/build
+          ref: main
+          clean: false
+          path: build
+
+      - name: Initialization environment
+        shell: bash
+        id: init
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt -y update
+          sudo -E apt -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
+          sudo -E apt -y autoremove --purge
+          sudo sed -i '/NVM_DIR/d;/skel/d' /root/{.bashrc,.profile}
+          sudo rm -rf ~/{.cargo,.dotnet,.rustup}
+          sudo -E apt -y install 7zip jq grep
+          sudo -E apt -y install $(curl -fsSL https://raw.githubusercontent.com/SoStufo/tvbox-armbian/refs/heads/main/compile-kernel/tools/script/ubuntu2204-build-armbian-depends)
+          sudo -E systemctl daemon-reload
+          sudo -E apt clean
+          sudo timedatectl set-timezone "${TZ}"
+          echo "status=success" >> ${GITHUB_OUTPUT}
+
+      - name: Compile Armbian [ ${{ inputs.armbian_board }}_${{ inputs.armbian_release }}_${{ inputs.armbian_revision }}_${{ inputs.armbian_kernel_branch }}_${{ inputs.armbian_rootfs_type }}_encryptrootfs-${{ inputs.armbian_cryptroot_enable }}_${{ inputs.armbian_ui }} ]
+        shell: bash
+        id: compile
+        if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
+        run: |
+          ## COMPILE_ARGUMENTS
+          REVISION="$(curl -fsSL "https://raw.githubusercontent.com/armbian/os/refs/heads/main/${{ inputs.armbian_revision }}.json" | jq -r '.version')"
+          COMPILE_ARGS="BOARD=${{ inputs.armbian_board }} \
+                        REVISION=$REVISION \
+                        RELEASE=${{ inputs.armbian_release }} \
+                        BRANCH=${{ inputs.armbian_kernel_branch }} \
+                        KERNEL_CONFIGURE=no \
+                        BSPFREEZE=no \
+                        INSTALL_HEADERS=no \
+                        HOST=armbian \
+                        EXPERT=yes \
+                        SHARE_LOG=no \
+                        CONSOLE_AUTOLOGIN=yes \
+                        EXTRAWIFI=yes \
+                        COMPRESS_OUTPUTIMAGE="sha,gpg,img,xz" \
+                        IMAGE_XZ_COMPRESSION_RATIO=9 \
+                        ROOTFS_TYPE=${{ inputs.armbian_rootfs_type }}"
+          # BTRFS_COMPRESSION
+          if [ "${{ inputs.armbian_rootfs_type }}" == "btrfs" ];then
+            COMPILE_ARGS="$COMPILE_ARGS \
+                            BTRFS_COMPRESSION=${{ inputs.armbian_btrfs_compression }}"
+          fi
+          # CRYPTROOT
+          if [ "${{ inputs.armbian_cryptroot_enable }}" == "true" ];then
+            COMPILE_ARGS="$COMPILE_ARGS \
+                            CRYPTROOT_ENABLE=yes \
+                            CRYPTROOT_PASSPHRASE=CryptRootPassword \
+                            CRYPTROOT_SSH_UNLOCK_PORT=2022 \
+                            CRYPTROOT_MAPPER=armbian-root"
+            if [ "${{ inputs.armbian_cryptroot_ssh_unlock }}" == "true" ];then
+              COMPILE_ARGS="$COMPILE_ARGS \
+                            CRYPTROOT_SSH_UNLOCK=yes"
+            else
+              COMPILE_ARGS="$COMPILE_ARGS \
+                            CRYPTROOT_SSH_UNLOCK=no"
+            fi
+          fi
+          # ARMBIAN_UI
+          case "${{ inputs.armbian_ui }}" in
+            minimal)
+              COMPILE_ARGS="$COMPILE_ARGS \
+                              BUILD_MINIMAL=yes \
+                              BUILD_DESKTOP=no"
+              ;;
+            server)
+              COMPILE_ARGS="$COMPILE_ARGS \
+                              BUILD_MINIMAL=no \
+                              BUILD_DESKTOP=no"
+              ;;
+            desktop)
+              COMPILE_ARGS="$COMPILE_ARGS \
+                              BUILD_DESKTOP=yes \
+                              BUILD_MINIMAL=no \
+                              DESKTOP_APPGROUPS_SELECTED= \
+                              DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop_enviroment }} \
+                              DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base"
+              ;;
+          esac
+
+          ## COMPILE
+          cd build
+          ./compile.sh $COMPILE_ARGS
+          cd ..
+
+          ## PREPARE_ARTIFACTS
+          if [ -d ./artifacts ];then rm -rf ./artifacts;fi
+          mkdir ./artifacts
+          mkdir ./release
+          # DEBS
+          for i in debs; do
+            if [ ! -d "./build/output/$i" ];then
+              echo "Directory ./build/output/$i doesn't exist, skip."
+              continue
+            else
+              echo "Compressing: ./build/output/$i"
+              ARCHIVE="./artifacts/Armbian-unofficial_${REVISION}_${{ inputs.armbian_board }}_${{ inputs.armbian_release }}_${{ inputs.armbian_kernel_branch }}_${i}.7z"
+              7z a -t7z -mx=9 -myx=9 -ms=4g -mqs=on -mf=on -mhc=on -m0=LZMA2 -mmt=on -mmtf=on -md=64m -mfb=64 -bb0 "$ARCHIVE" ./build/output/$i/
+            fi
+          done
+
+          ## RELEASE_TITTLE - RELEASE_BODY
+          echo "### Armbian ${{ inputs.armbian_revision }}" > ./release/body.md
+          if [ "${{ inputs.armbian_cryptroot_enable }}" == "true" ];then
+            echo "build_tag=Armbian-unofficial_v${REVISION}_${{ inputs.armbian_rootfs_type }}_encrypted-root" >> ${GITHUB_OUTPUT}
+            echo "### Armbian ${{ inputs.armbian_revision }}" >> ./release/body.md
+            echo "- CRYPTROOT_PASSPHRASE     : CryptRootPassword" >> ./release/body.md
+            echo "- CRYPTROOT_SSH_UNLOCK_PORT: 2022" >> ./release/body.md
+            echo "- CRYPTROOT_MAPPER         : armbian-root" >> ./release/body.md
+          else
+            echo "build_tag=Armbian-unofficial_v${REVISION}_${{ inputs.armbian_rootfs_type }}" >> ${GITHUB_OUTPUT}
+          fi
+
+          echo "status=success" >> ${GITHUB_OUTPUT}
+
+      - name: Upload Armbian image to Release
+        uses: ncipollo/release-action@main
+        if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
+        with:
+          tag: ${{ steps.compile.outputs.build_tag }}
+          artifacts: "artifacts/*, build/output/images/*"
+          allowUpdates: true
+          removeArtifacts: false
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          bodyFile: release/body.md
