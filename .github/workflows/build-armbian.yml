@@ -514,9 +514,9 @@ jobs:
           cd ..
 
           ## PREPARE_ARTIFACTS
-          if [ -d ./artifacts ];then rm -rf ./artifacts;fi
-          mkdir ./artifacts
-          mkdir ./release
+          ARTIFACTS_PATH="./release/artifacts"
+          if [ -d ./release ];then rm -rf ./release;fi
+          mkdir -p "$ARTIFACTS_PATH"
           # DEBS
           for i in debs; do
             if [ ! -d "./build/output/$i" ];then
@@ -524,7 +524,7 @@ jobs:
               continue
             else
               echo "Compressing: ./build/output/$i"
-              ARCHIVE="./artifacts/Armbian-unofficial_${REVISION}_${{ inputs.armbian_board }}_${{ inputs.armbian_release }}_${{ inputs.armbian_kernel_branch }}_${i}.7z"
+              ARCHIVE="$ARTIFACTS_PATH/Armbian-unofficial_${REVISION}_${{ inputs.armbian_board }}_${{ inputs.armbian_release }}_${{ inputs.armbian_kernel_branch }}_${i}.7z"
               7z a -t7z -mx=9 -myx=9 -ms=4g -mqs=on -mf=on -mhc=on -m0=LZMA2 -mmt=on -mmtf=on -md=64m -mfb=64 -bb0 "$ARCHIVE" ./build/output/$i/
             fi
           done
@@ -548,7 +548,7 @@ jobs:
         if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
         with:
           tag: ${{ steps.compile.outputs.build_tag }}
-          artifacts: "artifacts/*, build/output/images/*"
+          artifacts: "release/artifacts/*, build/output/images/*.img*"
           allowUpdates: true
           removeArtifacts: false
           replacesArtifacts: true
